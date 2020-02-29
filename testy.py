@@ -2,7 +2,8 @@ from algorytm import create_values_from_entropy
 
 #DZIAŁA TYLKO DLA LAYERS RÓWNE 1 LUB 2
 #Należy sie zastanowić jak szukać miejsc cięć podziałów w przypadku w którym jest więcej niż jeden podział
-#(a więc nie dzielimy osi od 0 do layers/2 na dwie części, a na ich większą ilość)
+#(a więc nie dzielimy osi od 0 do 1 na dwie części, a na ich większą ilość)
+#W tej chwili dzielę to sobie na procenty - od 0 do 1 - ale w sumie można dodać parametr o ilości gridów i na tym dzielić
 
 result = create_values_from_entropy(0, 1)
 result = create_values_from_entropy(1, 1) #nieprawdiłowy

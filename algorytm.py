@@ -33,7 +33,7 @@ def create_values_from_entropy(entropy, layers):
     #Przykład: zaczyna od podziału w 0,25 - czyli 0,25x0,75(1/4 obrazka na kolor1, 3/4 na kolor2)
     #Uznaje że entropia jest za duża, czyli cięcie w 0,25 na osi jest za wysoko
     #Czyli wiemy już że podział musi znajdować się w granicach 0 - 0,25 (Przyjmujemy je jako nowe min_cut i max_cut)
-    #Próbujemy trafić w środek z podziałem, czyli dajemy 0,125 - czyli 0,125 obrazka to kolor1 a 0,675 obrazka to kolor2
+    #Próbujemy trafić w środek z podziałem, czyli dajemy 0,125 - czyli 0,125 obrazka to kolor1 a 0,875 obrazka to kolor2
     #Teraz entropia wyszła nam za mała. Czyli miejsce cięcia musi być pomiędzy 0,125 a 0,25 (Przyjmujemy je jako nowe min_cut i max_cut)
     #Podejmujemy kolejną próbę, i tak dalej, aż nie trafimy. Zajmuje to zwykle kilkanaście prób
     i = 0

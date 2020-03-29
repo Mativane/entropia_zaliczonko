@@ -1,5 +1,6 @@
 from collections import Counter
 import random
+import math
 import numpy as np
 
 
@@ -32,3 +33,17 @@ def random_results(x, class_, size):
         results.append(result)
         np.array(results)
     return results
+
+
+def mutate(children, classes):
+    for child in children:
+        size = len(child)
+        mutation_perc = math.ceil(size * 0.03)
+        indexes = random.sample(range(0, size + 1), mutation_perc)
+        for idx in indexes:
+            old_class = child[idx]
+            new_class = random.choice(classes)
+            while old_class == new_class:
+                new_class = random.choice(classes)
+            child[idx] = new_class
+    return children

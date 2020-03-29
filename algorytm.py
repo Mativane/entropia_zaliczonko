@@ -36,5 +36,5 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
     while True:
         parent_indexes = choose_parents(best_cases)
         childrens = create_children(parent_indexes, best_cases)
-        m_children = mutate(childrens)
+        m_children = mutate(childrens, range(classes))
         #będziedalejpotem

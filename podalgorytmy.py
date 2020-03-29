@@ -34,6 +34,9 @@ def selection(arrays, entropy, k):
     )
     return result
 
+def choose_parents(parents):
+    chosen = random.sample(range(len(parents)),2)
+    return chosen
 
 def create_children(parent_indexes, best_cases):
     parent1 = best_cases[parent_indexes[0]]
@@ -64,7 +67,3 @@ def mutate(children, classes):
                 new_class = random.choice(classes)
             child[idx] = new_class
     return children
-
-def choose_parents(parents):
-    chosen = random.sample(range(len(parents)),2)
-    return chosen

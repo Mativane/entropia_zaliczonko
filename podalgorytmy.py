@@ -21,3 +21,12 @@ def selection(arrays, entropy, k):
         k=k
     )
     return result
+
+
+def random_results(x, class_, size):
+    results = []
+    for i in range(x):
+        result = [random.randint(1,class_) for j in range(size)]
+        results.append(result)
+        np.array(results)
+    return results

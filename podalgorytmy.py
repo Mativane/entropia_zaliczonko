@@ -102,3 +102,9 @@ def get_parents(cases, indexes):
 def array_to_entropy(array):
     occurences = [i / len(array) for i in Counter(array).values()]
     return calculate_entropy(occurences)
+
+    
+def replace_parents_with_bests(bests, parent_indexes, best_cases):
+    best_cases[parent_indexes[0]] = bests[0]
+    best_cases[parent_indexes[1]] = bests[1]
+    return best_cases

@@ -28,6 +28,7 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
         return None
     
     init_cases = random_results(100, classes, size)
+    classes = list(set(init_cases[0]))
     best_cases = selection(init_cases, expected_entropy, 40)
     if len(best_cases) == 1:
         print("Wśród losowych arrayów znaleziono rozwiązanie")
@@ -38,11 +39,12 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
     while True:
         parent_indexes = choose_parents(best_cases)
         childrens = create_children(parent_indexes, best_cases)
-        m_children = mutate(childrens, range(classes))
+        m_children = mutate(childrens, classes)
         bests = choose_bests(best_cases, parent_indexes, m_children, expected_entropy)
         if len(bests) == 1:
             print("Rozwiązanie znalezione po " + str(count) + " iteracjach!")
             print(bests[0])
+            print(expected_entropy, array_to_entropy(bests[0]), set(bests[0]))
             return bests[0]
         best_cases = replace_parents_with_bests(bests, parent_indexes, best_cases)
-        count+=1
+        count += 1

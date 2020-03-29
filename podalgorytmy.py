@@ -41,7 +41,7 @@ def choose_parents(parents):
 
 def create_children(parent_indexes, best_cases):
     parent1, parent2 = get_parents(best_cases, parent_indexes)
-
+    classes = set(parent1)
     split_point = int(len(parent1) / 2)
     parent1part1 = parent1[:split_point]
     parent1part2 = parent1[split_point:]
@@ -51,11 +51,16 @@ def create_children(parent_indexes, best_cases):
     child1 = np.concatenate((parent1part1, parent2part2), axis=None)
     child2 = np.concatenate((parent2part1, parent1part2), axis=None)
 
-    children = [child1, child2]
+    children = []
+    for child in [child1, child2]:
+        if set(child) == classes:
+            children.append(child)
+
     return children
 
 
 def mutate(children, classes):
+    mutated_children = []
     for child in children:
         size = len(child)
         px_to_mutate = math.ceil(size * 0.03)
@@ -66,7 +71,9 @@ def mutate(children, classes):
             while old_class == new_class:
                 new_class = random.choice(classes)
             child[idx] = new_class
-    return children
+        if list(set(child)) == classes:
+            mutated_children.append(child)
+    return mutated_children
 
 
 def choose_bests(best_cases, parent_idx, children: list, entropy):

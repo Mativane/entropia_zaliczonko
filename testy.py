@@ -11,4 +11,4 @@ result = create_values_from_entropy(8, 8, 2, 1)
 result = create_values_from_entropy(8, 8, 3, 1.2)
 """
 
-result = create_values_from_entropy(10, 10, 4, 1.2)
+result = create_values_from_entropy(20, 20, 4, 1.2)

@@ -73,23 +73,15 @@ def choose_bests(best_cases, parent_idx, children: list, entropy):
     parents = get_parents(best_cases, parent_idx)
     current_cases = children.copy()
     current_cases.extend(parents)
-    cases_entropy = [
-        abs(array_to_entropy(array) - entropy)
-        for array in current_cases
-    ]
-    work_list = cases_entropy.copy()
+    cases_entropy = []
+    for array in current_cases:
+        diff = abs(array_to_entropy(array) - entropy)
+        if diff <= 0.03:
+            return [array]
+        cases_entropy.append(diff)
     best_arrays = []
-    similar_found = True
-    while len(best_arrays) < 2:
-        min_value = min(work_list)
-        best_array_idx = cases_entropy.index(min_value)
-        best_arrays.append(current_cases[best_array_idx])
-        if min_value <= 0.03:
-            similar_found = True
-            break
-        work_list.remove(min_value)
-    if similar_found:
-        return [best_arrays]
+    min_indexes = np.argmin(cases_entropy)
+    best_arrays = [current_cases[idx] for idx in min_indexes]
     return best_arrays
 
 
@@ -103,7 +95,7 @@ def array_to_entropy(array):
     occurences = [i / len(array) for i in Counter(array).values()]
     return calculate_entropy(occurences)
 
-    
+
 def replace_parents_with_bests(bests, parent_indexes, best_cases):
     best_cases[parent_indexes[0]] = bests[0]
     best_cases[parent_indexes[1]] = bests[1]

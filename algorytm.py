@@ -39,9 +39,9 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
         parent_indexes = choose_parents(best_cases)
         childrens = create_children(parent_indexes, best_cases)
         m_children = mutate(childrens, range(classes))
-        bests = choose_bests(parent_indexes, best_cases, m_children, expected_entropy)
+        bests = choose_bests(best_cases, parent_indexes, m_children, expected_entropy)
         if len(bests) == 1:
-            print("Rozwiązanie znalezione po" + str(count) + "iteracjach!")
+            print("Rozwiązanie znalezione po " + str(count) + " iteracjach!")
             print(bests[0])
             return bests[0]
         best_cases = replace_parents_with_bests(bests, parent_indexes, best_cases)

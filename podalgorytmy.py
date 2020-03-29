@@ -80,7 +80,7 @@ def choose_bests(best_cases, parent_idx, children: list, entropy):
             return [array]
         cases_entropy.append(diff)
     best_arrays = []
-    min_indexes = np.argmin(cases_entropy)[:2]
+    min_indexes = np.argsort(cases_entropy)[:2]
     best_arrays = [current_cases[idx] for idx in min_indexes]
     return best_arrays
 

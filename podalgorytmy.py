@@ -67,3 +67,8 @@ def mutate(children, classes):
                 new_class = random.choice(classes)
             child[idx] = new_class
     return children
+
+def replace_parents_with_bests(bests, parent_indexes, best_cases):
+    best_cases[parent_indexes[0]] = bests[0]
+    best_cases[parent_indexes[1]] = bests[1]
+    return best_cases

@@ -31,7 +31,7 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
     best_cases = selection(init_cases, expected_entropy, 40)
     if len(best_cases) == 1:
         print("Wśród losowych arrayów znaleziono rozwiązanie")
-        print(count(best_cases[0]))
+        print(best_cases[0])
         return best_cases[0]
 
     count = 1

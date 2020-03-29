@@ -32,3 +32,9 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
     if len(best_cases) == 1:
         print("Wśród losowych arrayów znaleziono rozwiązanie")
         return best_cases
+    
+    while True:
+        parentIndexes = choose_parents(best_cases)
+        childrens = create_children(parentIndexes, best_cases)
+        mChildrens = mutate(childrens)
+        #będziedalejpotem

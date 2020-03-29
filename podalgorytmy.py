@@ -9,6 +9,15 @@ def calculate_entropy(data):
     return entropy
 
 
+def random_results(x, class_, size):
+    results = []
+    for i in range(x):
+        result = [random.randint(1, class_) for j in range(size)]
+        results.append(result)
+        np.array(results)
+    return results
+
+
 def selection(arrays, entropy, k):
     weights = []
     for array in arrays:
@@ -26,13 +35,21 @@ def selection(arrays, entropy, k):
     return result
 
 
-def random_results(x, class_, size):
-    results = []
-    for i in range(x):
-        result = [random.randint(1, class_) for j in range(size)]
-        results.append(result)
-        np.array(results)
-    return results
+def create_children(parent_indexes, best_cases):
+    parent1 = best_cases[parent_indexes[0]]
+    parent2 = best_cases[parent_indexes[1]]
+
+    split_point = int(len(parent1) / 2)
+    parent1part1 = parent1[:split_point]
+    parent1part2 = parent1[split_point:]
+    parent2part1 = parent2[:split_point]
+    parent2part2 = parent2[split_point:]
+
+    child1 = np.concatenate((parent1part1, parent2part2), axis=None)
+    child2 = np.concatenate((parent2part1, parent1part2), axis=None)
+
+    children = [child1, child2]
+    return children
 
 
 def mutate(children, classes):

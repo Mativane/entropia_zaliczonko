@@ -46,5 +46,6 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
             print("Rozwiązanie znalezione po " + str(count) + " iteracjach!")
             print(bests[0])
             print(expected_entropy, array_to_entropy(bests[0]), set(bests[0]))
+            return(bests[0])
         best_cases = replace_parents_with_bests(bests, parent_indexes, best_cases)
         count += 1

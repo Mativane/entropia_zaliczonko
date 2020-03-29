@@ -55,8 +55,8 @@ def create_children(parent_indexes, best_cases):
 def mutate(children, classes):
     for child in children:
         size = len(child)
-        mutation_perc = math.ceil(size * 0.03)
-        indexes = random.sample(range(0, size + 1), mutation_perc)
+        px_to_mutate = math.ceil(size * 0.03)
+        indexes = random.sample(range(0, size + 1), px_to_mutate)
         for idx in indexes:
             old_class = child[idx]
             new_class = random.choice(classes)

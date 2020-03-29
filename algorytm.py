@@ -33,7 +33,8 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
     if len(best_cases) == 1:
         print("Wśród losowych arrayów znaleziono rozwiązanie")
         print(best_cases[0])
-        return best_cases[0]
+        print(expected_entropy, array_to_entropy(best_cases[0]), set(best_cases[0]))
+        return np.array(best_cases[0])
 
     count = 1
     while True:
@@ -45,6 +46,5 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
             print("Rozwiązanie znalezione po " + str(count) + " iteracjach!")
             print(bests[0])
             print(expected_entropy, array_to_entropy(bests[0]), set(bests[0]))
-            return bests[0]
         best_cases = replace_parents_with_bests(bests, parent_indexes, best_cases)
         count += 1

@@ -64,3 +64,7 @@ def mutate(children, classes):
                 new_class = random.choice(classes)
             child[idx] = new_class
     return children
+
+def choose_parents(parents):
+    chosen = random.sample(range(len(parents)),2)
+    return chosen

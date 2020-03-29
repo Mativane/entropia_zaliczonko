@@ -32,3 +32,5 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
     if len(best_cases) == 1:
         print("Wśród losowych arrayów znaleziono rozwiązanie")
         return best_cases
+
+def choose_parents (best_cases)

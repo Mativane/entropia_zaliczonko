@@ -2,6 +2,7 @@ import numpy as np
 
 from podalgorytmy import *
 
+
 def create_values_from_entropy(x, y, classes, expected_entropy):
     size = x * y
 
@@ -27,6 +28,7 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
         return None
     
     init_cases = random_results(100, classes, size)
-    best_cases = selection(init_cases, expected_entropy)
-    
-
+    best_cases = selection(init_cases, expected_entropy, 40)
+    if len(best_cases) == 1:
+        print("Wśród losowych arrayów znaleziono rozwiązanie")
+        return best_cases

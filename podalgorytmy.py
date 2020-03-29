@@ -14,6 +14,8 @@ def selection(arrays, entropy, k):
         occurences = [i / len(array) for i in Counter(array).values()]
         array_entropy = calculate_entropy(occurences)
         diff = abs(array_entropy - entropy)
+        if diff <= 0.03:
+            return array
         weights.append(1 - diff / entropy)
     result = random.choices(
         arrays,

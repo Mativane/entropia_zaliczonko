@@ -1,11 +1,11 @@
 import sys
 import numpy as np
-import matplotlib
 import matplotlib.patches as mpatches
 
 from PyQt5 import uic
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QApplication, QProgressBar
+from matplotlib.pyplot import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from podalgorytmy import *
@@ -28,7 +28,7 @@ class Ui(QMainWindow):
         self.statusbar.showMessage('Obliczam entropię...')
 
     def initMatplotlib(self):
-        self.fig = matplotlib.figure.Figure(figsize=(9,7))
+        self.fig = Figure(figsize=(9,7))
         self.canvas = FigureCanvas(self.fig)
         self.mapLayout.addWidget(self.canvas)
 

@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QProgressBar
 from matplotlib.pyplot import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
-from podalgorytmy import *
+from utils.podalgorytmy import *
 
 
 class Ui(QMainWindow):
@@ -46,37 +46,37 @@ class Ui(QMainWindow):
                 values = np.asarray([1])
                 self.statusbar.showMessage("Cały obrazek w jednym kolorze")
                 self.generateRaster(values)
-                return 
+                return
             else:
                 self.statusbar.showMessage("Wartość niemożliwa do osiągnięcia")
-                return 
+                return
         max_entropy_case = np.asarray([1/classes]*classes)
         if expected_entropy > calculate_entropy(max_entropy_case) or expected_entropy < 0:
             self.statusbar.showMessage("Wartość niemożliwa do osiągnięcia")
-            return 
+            return
         if expected_entropy == 0:
             self.statusbar.showMessage("Wartość niemożliwa do osiągnięcia")
-            return 
+            return
         min_entropy_case = [0] * size
         for class_ in range(classes):
-            min_entropy_case[class_] = class_ 
+            min_entropy_case[class_] = class_
         min_entropy = array_to_entropy(min_entropy_case)
         if min_entropy > expected_entropy:
             self.statusbar.showMessage("Minimalna entropia dla " + str(classes) + " klas w macierzy o wielkości " + str(size) + " to " + str(min_entropy))
-            return 
+            return
         self.startProgress()
         init_cases = random_results(200, classes, size)
         classes = list(set(init_cases[0]))
         best_cases = selection(init_cases, expected_entropy, 30)
         if len(best_cases) == 1:
             self.generateRaster(np.array(best_cases[0]))
-            return 
+            return
         #Async
         self.worker = Worker(best_cases, classes, expected_entropy)
         self.worker.finished.connect(self.generateRaster)
         self.worker.start()
         self.working = True
-    
+
     def generateRaster(self, result):
         x, y = self.sbX.value(), self.sbY.value()
         self.fig.clear()
@@ -97,7 +97,7 @@ class Ui(QMainWindow):
         except AttributeError:
             pass
 
-        
+
 class Worker(QThread):
 
     finished = pyqtSignal(object)
@@ -127,10 +127,8 @@ class Worker(QThread):
                     return
                 best_min = array_to_entropy(self.bestCases[min_idx])
             count += 1
-        
+
 
 app = QApplication(sys.argv)
 window = Ui()
 app.exec_()
-
-

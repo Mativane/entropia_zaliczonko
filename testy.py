@@ -17,7 +17,7 @@ result = create_values_from_entropy(8, 8, 3, 1.2)
 shape = (10, 10)
 import time
 start = time.time()
-result = create_values_from_entropy(*shape, 5, 1.7).reshape(shape)
+result = create_values_from_entropy(*shape, 4, 1.).reshape(shape)
 # result = np.array((list(result)*4)).reshape(20,20)
 process_time = time.time() - start
 print('Czas: ', process_time/60)

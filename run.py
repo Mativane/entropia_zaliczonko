@@ -1,14 +1,12 @@
 import sys
 import numpy as np
 import matplotlib
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-matplotlib.use('Qt5Agg')
 import matplotlib.patches as mpatches
 
 from PyQt5 import uic
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QApplication, QProgressBar
-
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from podalgorytmy import *
 
@@ -21,6 +19,13 @@ class Ui(QMainWindow):
         self.initWorker()
         self.initMatplotlib()
         self.tbCalculate.clicked.connect(self.runAlgorithm)
+        self.working = False
+
+    def startProgress(self):
+        self.progressBar = QProgressBar()
+        self.progressBar.setRange(0,0)
+        self.statusbar.addPermanentWidget(self.progressBar)
+        self.statusbar.showMessage('Obliczam entropię...')
 
     def initMatplotlib(self):
         self.fig = matplotlib.figure.Figure(figsize=(9,7))
@@ -34,7 +39,10 @@ class Ui(QMainWindow):
         self.worker.finished.connect(self.generateRaster)
 
     def runAlgorithm(self):
+        if self.working:
+            return
         self.statusbar.clearMessage()
+        self.startProgress()
         classes = self.sbClasses.value()
         expected_entropy = self.dsbEntropy.value()
         x, y = self.sbX.value(), self.sbY.value()
@@ -84,17 +92,14 @@ class Ui(QMainWindow):
         result = result.reshape(x,y)
         values = np.unique(result.ravel())
         im = self.ax.imshow(result, extent=[0,x, 0, y])
-        # colors = [im.cmap(im.norm(value)) for value in values]
-
-        # plt.figure(figsize=(9,7))
-        # im = plt.imshow(result, extent=[0,x, 0, y])
         colors = [im.cmap(im.norm(value)) for value in values]
         patches = [mpatches.Patch(color=colors[i], label="Class {l}".format(l=values[i]+1)) for i in range(len(values))]
         self.ax.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-        # plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-        # plt.show()
         self.canvas.draw()
-
+        self.statusbar.removeWidget(self.progressBar)
+        self.statusbar.clearMessage()
+        self.working = False
+        self.thread.quit()
 
         
 class Worker(QObject):

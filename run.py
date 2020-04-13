@@ -100,8 +100,7 @@ class Ui(QMainWindow):
         self.statusbar.removeWidget(self.progressBar)
         self.statusbar.showMessage(f"Obliczona entropia: {found_ent}")
         self.working = False
-        if self.sender == self.worker:
-            self.thread.quit()
+        self.thread.quit()
 
         
 class Worker(QObject):

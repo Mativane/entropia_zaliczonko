@@ -16,7 +16,7 @@ class Ui(QMainWindow):
         super(Ui, self).__init__()
         uic.loadUi('gui.ui', self)
         self.show()
-        self.initWorker()
+        # self.initWorker()
         self.initMatplotlib()
         self.tbCalculate.clicked.connect(self.runAlgorithm)
         self.working = False
@@ -34,9 +34,10 @@ class Ui(QMainWindow):
 
     def initWorker(self):
         self.worker = Worker()
-        self.thread = QThread()
-        self.worker.moveToThread(self.thread)
+        # self.thread = QThread()
+        # self.worker.moveToThread(self.thread)
         self.worker.finished.connect(self.generateRaster)
+        self.worker.start()
 
     def runAlgorithm(self):
         if self.working:
@@ -79,11 +80,16 @@ class Ui(QMainWindow):
             self.statusbar.showMessage('znaleizonooo')
             return 
         #Async
-        self.thread.started.connect(lambda: self.worker.findResult(
-            best_cases, 
-            classes, 
-            expected_entropy))
-        self.thread.start()
+        # self.thread.started.connect(lambda: self.worker.findResult(
+        #     best_cases, 
+        #     classes, 
+        #     expected_entropy))
+        # self.thread.start()
+        # self.initWorker()
+        self.worker = Worker(best_cases, classes, expected_entropy)
+        self.worker.finished.connect(self.generateRaster)
+        self.worker.start()
+        self.working = True
     
     def generateRaster(self, result):
         x, y = self.sbX.value(), self.sbY.value()
@@ -100,31 +106,37 @@ class Ui(QMainWindow):
         self.statusbar.removeWidget(self.progressBar)
         self.statusbar.showMessage(f"Obliczona entropia: {found_ent}")
         self.working = False
-        self.thread.quit()
+        del self.worker
 
         
-class Worker(QObject):
+class Worker(QThread):
 
     finished = pyqtSignal(object)
 
-    def findResult(self, best_cases, classes, expected_entropy):
+    def __init__(self, best_cases, classes, expected_entropy):
+        super(Worker, self).__init__(None)
+        self.bestCases = best_cases
+        self.classes = classes
+        self.entropy = expected_entropy
+
+    def run(self):
         count = 1
-        best_min = min(abs(array_to_entropy(array)-expected_entropy) for array in best_cases)
+        best_min = min(abs(array_to_entropy(array)-self.entropy) for array in self.bestCases)
         while True:
-            parent_indexes = choose_parents(best_cases)
-            childrens = create_children(parent_indexes, best_cases)
-            m_children = mutate(childrens, classes)
-            bests = choose_bests(best_cases, parent_indexes, m_children, expected_entropy)
+            parent_indexes = choose_parents(self.bestCases)
+            childrens = create_children(parent_indexes, self.bestCases)
+            m_children = mutate(childrens, self.classes)
+            bests = choose_bests(self.bestCases, parent_indexes, m_children, self.entropy)
             if len(bests) == 1:
                 self.finished.emit(bests[0])
                 return
-            best_cases = replace_parents_with_bests(bests, parent_indexes, best_cases)
+            self.bestCases = replace_parents_with_bests(bests, parent_indexes, self.bestCases)
             if count%100000 == 0:
-                min_idx = np.argsort(abs(array_to_entropy(array)-expected_entropy) for array in best_cases)[0]
-                if best_min == array_to_entropy(best_cases[min_idx]):
-                    self.finished.emit(best_cases[min_idx])
+                min_idx = np.argsort(abs(array_to_entropy(array)-self.entropy) for array in self.bestCases)[0]
+                if best_min == array_to_entropy(self.bestCases[min_idx]):
+                    self.finished.emit(self.bestCases[min_idx])
                     return
-                best_min = array_to_entropy(best_cases[min_idx])
+                best_min = array_to_entropy(self.bestCases[min_idx])
             count += 1
         
 

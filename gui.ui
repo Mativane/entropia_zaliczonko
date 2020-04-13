@@ -107,7 +107,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QDoubleSpinBox" name="dsbEntropy"/>
+              <widget class="QDoubleSpinBox" name="dsbEntropy">
+               <property name="singleStep">
+                <double>0.010000000000000</double>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -124,24 +128,6 @@
               <widget class="QSpinBox" name="sbClasses">
                <property name="minimum">
                 <number>1</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="QLabel" name="label_5">
-               <property name="text">
-                <string>Dokładność</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="dbsAccuracy">
-               <property name="value">
-                <double>0.010000000000000</double>
                </property>
               </widget>
              </item>

@@ -10,9 +10,12 @@ def calculate_entropy(data):
 
 
 def random_results(x, class_, size):
+    weights = []
+    for cl in range(class_):
+        weights.append(class_**cl)
     results = []
     for i in range(x):
-        result = [random.randint(1, class_) for j in range(size)]
+        result = random.choices([c for c in range(class_)], weights, k=size)
         results.append(result)
         np.array(results)
     return results

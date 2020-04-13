@@ -14,19 +14,27 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
             print("Cały obrazek w jednym kolorze")
             return values
         else:
-            print("Wartość niemożliwa do osiąnięcia")
+            print("Wartość niemożliwa do osiągnięcia")
             return None
     #Obsługa dziwnych parametrów wejściowych
     max_entropy_case = np.asarray([1/classes]*classes)
     print(calculate_entropy(max_entropy_case))
     if expected_entropy > calculate_entropy(max_entropy_case) or expected_entropy < 0:
-        print("Wartość niemożliwa do osiąnięcia")
+        print("Wartość niemożliwa do osiągnięcia")
         return None
     if round(classes) != classes:
         print("Argument classes musi być liczbą całkowitą")
         return None
     if expected_entropy == 0:
-        print("Wartość niemożliwa do osiąnięcia")
+        print("Wartość niemożliwa do osiągnięcia")
+        return None
+    min_entropy_case = [0] * size
+    for class_ in range(classes):
+        min_entropy_case[class_] = class_ 
+    min_entropy = array_to_entropy(min_entropy_case)
+    if min_entropy > expected_entropy:
+        print("Wartość niemożliwa do osiągnięcia")
+        print("Minimalna entropia dla " + str(classes) + " klas w macierzy o wielkości " + str(size) + " to " + str(min_entropy))
         return None
     
     init_cases = random_results(200, classes, size)
@@ -46,7 +54,7 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
         bests = choose_bests(best_cases, parent_indexes, m_children, expected_entropy)
         if count%10000 == 0:
             print(count)
-            print(abs(expected_entropy - mean(array_to_entropy(array) for array in best_cases)))
+            print(min(abs(expected_entropy - array_to_entropy(array)) for array in best_cases))
         if len(bests) == 1:
             print("Rozwiązanie znalezione po " + str(count) + " iteracjach!")
             print(bests[0])

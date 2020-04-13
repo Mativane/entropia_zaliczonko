@@ -89,6 +89,7 @@ class Ui(QMainWindow):
         x, y = self.sbX.value(), self.sbY.value()
         self.fig.clear()
         self.ax = self.fig.add_subplot(111)
+        found_ent = array_to_entropy(result)
         result = result.reshape(x,y)
         values = np.unique(result.ravel())
         im = self.ax.imshow(result, extent=[0,x, 0, y])
@@ -97,7 +98,7 @@ class Ui(QMainWindow):
         self.ax.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
         self.canvas.draw()
         self.statusbar.removeWidget(self.progressBar)
-        self.statusbar.clearMessage()
+        self.statusbar.showMessage(f"Obliczona entropia: {found_ent}")
         self.working = False
         self.thread.quit()
 

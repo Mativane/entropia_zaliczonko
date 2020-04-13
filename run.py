@@ -42,7 +42,6 @@ class Ui(QMainWindow):
         if self.working:
             return
         self.statusbar.clearMessage()
-        self.startProgress()
         classes = self.sbClasses.value()
         expected_entropy = self.dsbEntropy.value()
         x, y = self.sbX.value(), self.sbY.value()
@@ -52,7 +51,8 @@ class Ui(QMainWindow):
             if expected_entropy == 0.:
                 values = np.asarray([1])
                 self.statusbar.showMessage("Cały obrazek w jednym kolorze")
-                return values
+                self.generateRaster(values)
+                return 
             else:
                 self.statusbar.showMessage("Wartość niemożliwa do osiągnięcia")
                 return 
@@ -70,6 +70,7 @@ class Ui(QMainWindow):
         if min_entropy > expected_entropy:
             self.statusbar.showMessaget("Minimalna entropia dla " + str(classes) + " klas w macierzy o wielkości " + str(size) + " to " + str(min_entropy))
             return 
+        self.startProgress()
         init_cases = random_results(200, classes, size)
         classes = list(set(init_cases[0]))
         best_cases = selection(init_cases, expected_entropy, 30)
@@ -81,8 +82,7 @@ class Ui(QMainWindow):
         self.thread.started.connect(lambda: self.worker.findResult(
             best_cases, 
             classes, 
-            expected_entropy)
-            )
+            expected_entropy))
         self.thread.start()
     
     def generateRaster(self, result):

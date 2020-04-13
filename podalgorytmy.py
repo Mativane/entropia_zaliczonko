@@ -12,7 +12,7 @@ def calculate_entropy(data):
 def random_results(x, class_, size):
     weights = []
     for cl in range(class_):
-        weights.append(class_**cl)
+        weights.append(class_*cl+1)
     results = []
     for i in range(x):
         result = random.choices([c for c in range(class_)], weights, k=size)
@@ -26,7 +26,7 @@ def selection(arrays, entropy, k):
     for array in arrays:
         array_entropy = array_to_entropy(array)
         diff = abs(array_entropy - entropy)
-        if diff <= 0.01:
+        if diff <= 0.015:
             return [array]
         weights.append(1 - diff / entropy)
     result = random.choices(
@@ -86,7 +86,7 @@ def choose_bests(best_cases, parent_idx, children: list, entropy):
     cases_entropy = []
     for array in current_cases:
         diff = abs(array_to_entropy(array) - entropy)
-        if diff <= 0.01:
+        if diff <= 0.015:
             return [array]
         cases_entropy.append(diff)
     best_arrays = []

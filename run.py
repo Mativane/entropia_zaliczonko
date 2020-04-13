@@ -32,13 +32,6 @@ class Ui(QMainWindow):
         self.canvas = FigureCanvas(self.fig)
         self.mapLayout.addWidget(self.canvas)
 
-    def initWorker(self):
-        self.worker = Worker()
-        # self.thread = QThread()
-        # self.worker.moveToThread(self.thread)
-        self.worker.finished.connect(self.generateRaster)
-        self.worker.start()
-
     def runAlgorithm(self):
         if self.working:
             return
@@ -77,15 +70,8 @@ class Ui(QMainWindow):
         best_cases = selection(init_cases, expected_entropy, 30)
         if len(best_cases) == 1:
             self.generateRaster(np.array(best_cases[0]))
-            self.statusbar.showMessage('znaleizonooo')
             return 
         #Async
-        # self.thread.started.connect(lambda: self.worker.findResult(
-        #     best_cases, 
-        #     classes, 
-        #     expected_entropy))
-        # self.thread.start()
-        # self.initWorker()
         self.worker = Worker(best_cases, classes, expected_entropy)
         self.worker.finished.connect(self.generateRaster)
         self.worker.start()
@@ -106,7 +92,10 @@ class Ui(QMainWindow):
         self.statusbar.removeWidget(self.progressBar)
         self.statusbar.showMessage(f"Obliczona entropia: {found_ent}")
         self.working = False
-        del self.worker
+        try:
+            del self.worker
+        except AttributeError:
+            pass
 
         
 class Worker(QThread):

@@ -1,4 +1,5 @@
 import numpy as np
+from statistics import mean
 
 from podalgorytmy import *
 
@@ -17,6 +18,7 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
             return None
     #Obsługa dziwnych parametrów wejściowych
     max_entropy_case = np.asarray([1/classes]*classes)
+    print(calculate_entropy(max_entropy_case))
     if expected_entropy > calculate_entropy(max_entropy_case) or expected_entropy < 0:
         print("Wartość niemożliwa do osiąnięcia")
         return None
@@ -27,9 +29,9 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
         print("Wartość niemożliwa do osiąnięcia")
         return None
     
-    init_cases = random_results(100, classes, size)
+    init_cases = random_results(200, classes, size)
     classes = list(set(init_cases[0]))
-    best_cases = selection(init_cases, expected_entropy, 40)
+    best_cases = selection(init_cases, expected_entropy, 30)
     if len(best_cases) == 1:
         print("Wśród losowych arrayów znaleziono rozwiązanie")
         print(best_cases[0])
@@ -42,6 +44,9 @@ def create_values_from_entropy(x, y, classes, expected_entropy):
         childrens = create_children(parent_indexes, best_cases)
         m_children = mutate(childrens, classes)
         bests = choose_bests(best_cases, parent_indexes, m_children, expected_entropy)
+        if count%10000 == 0:
+            print(count)
+            print(abs(expected_entropy - mean(array_to_entropy(array) for array in best_cases)))
         if len(bests) == 1:
             print("Rozwiązanie znalezione po " + str(count) + " iteracjach!")
             print(bests[0])

@@ -23,7 +23,7 @@ def selection(arrays, entropy, k):
     for array in arrays:
         array_entropy = array_to_entropy(array)
         diff = abs(array_entropy - entropy)
-        if diff <= 0.03:
+        if diff <= 0.01:
             return [array]
         weights.append(1 - diff / entropy)
     result = random.choices(
@@ -63,7 +63,7 @@ def mutate(children, classes):
     mutated_children = []
     for child in children:
         size = len(child)
-        px_to_mutate = math.ceil(size * 0.03)
+        px_to_mutate = math.ceil(size * 0.05)
         indexes = random.sample(range(0, size), px_to_mutate)
         for idx in indexes:
             old_class = child[idx]
@@ -83,7 +83,7 @@ def choose_bests(best_cases, parent_idx, children: list, entropy):
     cases_entropy = []
     for array in current_cases:
         diff = abs(array_to_entropy(array) - entropy)
-        if diff <= 0.03:
+        if diff <= 0.01:
             return [array]
         cases_entropy.append(diff)
     best_arrays = []

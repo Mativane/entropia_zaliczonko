@@ -68,7 +68,7 @@ class Ui(QMainWindow):
             min_entropy_case[class_] = class_ 
         min_entropy = array_to_entropy(min_entropy_case)
         if min_entropy > expected_entropy:
-            self.statusbar.showMessaget("Minimalna entropia dla " + str(classes) + " klas w macierzy o wielkości " + str(size) + " to " + str(min_entropy))
+            self.statusbar.showMessage("Minimalna entropia dla " + str(classes) + " klas w macierzy o wielkości " + str(size) + " to " + str(min_entropy))
             return 
         self.startProgress()
         init_cases = random_results(200, classes, size)
@@ -76,6 +76,7 @@ class Ui(QMainWindow):
         best_cases = selection(init_cases, expected_entropy, 30)
         if len(best_cases) == 1:
             self.generateRaster(np.array(best_cases[0]))
+            self.statusbar.showMessage('znaleizonooo')
             return 
         #Async
         self.thread.started.connect(lambda: self.worker.findResult(
@@ -99,7 +100,8 @@ class Ui(QMainWindow):
         self.statusbar.removeWidget(self.progressBar)
         self.statusbar.showMessage(f"Obliczona entropia: {found_ent}")
         self.working = False
-        self.thread.quit()
+        if self.sender == self.worker:
+            self.thread.quit()
 
         
 class Worker(QObject):

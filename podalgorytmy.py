@@ -29,7 +29,7 @@ def selection(arrays, entropy, k):
     for array in arrays:
         array_entropy = array_to_entropy(array)
         diff = abs(array_entropy - entropy)
-        if diff <= 0.015:
+        if diff <= 0.01:
             return [array]
         weights.append(1 - diff / entropy)
     result = random.choices(
@@ -89,7 +89,7 @@ def choose_bests(best_cases, parent_idx, children: list, entropy):
     cases_entropy = []
     for array in current_cases:
         diff = abs(array_to_entropy(array) - entropy)
-        if diff <= 0.015:
+        if diff <= 0.01:
             return [array]
         cases_entropy.append(diff)
     best_arrays = []

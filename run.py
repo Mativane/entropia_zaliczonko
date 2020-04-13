@@ -77,7 +77,6 @@ class Ui(QMainWindow):
         if len(best_cases) == 1:
             self.generateRaster(np.array(best_cases[0]))
             return 
-        print(best_cases)
         #Async
         self.thread.started.connect(lambda: self.worker.findResult(
             best_cases, 

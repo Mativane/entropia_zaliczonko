@@ -14,10 +14,10 @@ result = create_values_from_entropy(8, 8, 2, 1)
 result = create_values_from_entropy(8, 8, 3, 1.2)
 """
 
-shape = (9, 9)
+shape = (5, 10)
 import time
 start = time.time()
-result = create_values_from_entropy(*shape, 5, 0.4).reshape(shape)
+result = create_values_from_entropy(*shape, 15, 3).reshape(shape)
 # result = np.array((list(result)*4)).reshape(20,20)
 process_time = time.time() - start
 print('Czas: ', process_time/60)

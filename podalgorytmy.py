@@ -16,6 +16,9 @@ def random_results(x, class_, size):
     results = []
     for i in range(x):
         result = random.choices([c for c in range(class_)], weights, k=size)
+        for cl in range(class_):
+            if cl not in result:
+                result[cl] = cl
         results.append(result)
         np.array(results)
     return results

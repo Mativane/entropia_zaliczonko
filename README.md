@@ -15,3 +15,14 @@ Algorytm, wyposażony w GUI, wykorzystuje algorytm ewolucyjny aby obliczyć wart
  
  W ten sposób grupa wyników cały czas staje się bardziej podobna do zadanej entropi, aż w końcu któryś z nich okaże się poprawną odpowiedzią.
  
+## Instrukcja instalacji
+  1. W pliku tekstowym req.txt znajdują się zależności niezbędne do uruchomienia programu.
+  2. Można je zainstalować przez pip - `pip install -r req.txt` lub w przypadku dwóch pythonów `pip3 install -r req.txt`
+  3. Po pomyślnym zainstalowaniu pakietów, program uruchamia się z pliku `run.py`
+
+## Parametry wejściowe
+  - Rozmiar rastra - pozwala określić wielkość rastra wynikowego, im większy tym większa złożoność obliczeniowa
+  - Entropia - szukana wartość entropii Shannona
+  - Klasy - ilość klas na rastrze wynikowym
+  - Dokładność - precyzja, z jaką algorytm szuk rozwiązania, im mniejsza tym większa złożoność
+  W przypadku niemożliwości znalezienia pożądanego wyniku, po dłuższym czasie algorytm podaje najlepszy znaleziony wynik.

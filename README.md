@@ -25,4 +25,5 @@ Algorytm, wyposażony w GUI, wykorzystuje algorytm ewolucyjny aby obliczyć wart
   - Entropia - szukana wartość entropii Shannona
   - Klasy - ilość klas na rastrze wynikowym
   - Dokładność - precyzja, z jaką algorytm szuk rozwiązania, im mniejsza tym większa złożoność
-  W przypadku niemożliwości znalezienia pożądanego wyniku, po dłuższym czasie algorytm podaje najlepszy znaleziony wynik.
+  
+  *W przypadku niemożliwości znalezienia pożądanego wyniku, po dłuższym czasie algorytm podaje najlepszy znaleziony wynik*

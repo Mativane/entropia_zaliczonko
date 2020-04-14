@@ -1,4 +1,4 @@
-# Generator obrazku o zadanej entropii
+# Generator obrazu o zadanej entropii
 
 Projekt zaliczeniowy na zajęcia z Algorytmów Heurystycznych. 
 Algorytm, wyposażony w GUI, wykorzystuje algorytm ewolucyjny aby obliczyć wartości spełniające wymóg zadanej entropii a następnie wynik przedstawia w postaci obrazka.

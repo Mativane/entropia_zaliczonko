@@ -38,6 +38,7 @@ class Ui(QMainWindow):
         self.statusbar.clearMessage()
         classes = self.sbClasses.value()
         expected_entropy = self.dsbEntropy.value()
+        expected_diff = self.dsbAccuracy.value()
         x, y = self.sbX.value(), self.sbY.value()
         size = x * y
         #Obsługa przypadku gdzie classes == 1:
@@ -67,12 +68,12 @@ class Ui(QMainWindow):
         self.startProgress()
         init_cases = random_results(200, classes, size)
         classes = list(set(init_cases[0]))
-        best_cases = selection(init_cases, expected_entropy, 30)
+        best_cases = selection(init_cases, expected_entropy, 30, expected_diff)
         if len(best_cases) == 1:
             self.generateRaster(np.array(best_cases[0]))
             return
         #Async
-        self.worker = Worker(best_cases, classes, expected_entropy)
+        self.worker = Worker(best_cases, classes, expected_entropy, expected_diff)
         self.worker.finished.connect(self.generateRaster)
         self.worker.start()
         self.working = True
@@ -102,11 +103,12 @@ class Worker(QThread):
 
     finished = pyqtSignal(object)
 
-    def __init__(self, best_cases, classes, expected_entropy):
+    def __init__(self, best_cases, classes, expected_entropy, expected_diff):
         super(Worker, self).__init__(None)
         self.bestCases = best_cases
         self.classes = classes
         self.entropy = expected_entropy
+        self.expectedDiff = expected_diff
 
     def run(self):
         count = 1
@@ -115,7 +117,7 @@ class Worker(QThread):
             parent_indexes = choose_parents(self.bestCases)
             childrens = create_children(parent_indexes, self.bestCases)
             m_children = mutate(childrens, self.classes)
-            bests = choose_bests(self.bestCases, parent_indexes, m_children, self.entropy)
+            bests = choose_bests(self.bestCases, parent_indexes, m_children, self.entropy, self.expectedDiff)
             if len(bests) == 1:
                 self.finished.emit(bests[0])
                 return

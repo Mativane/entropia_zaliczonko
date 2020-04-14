@@ -24,12 +24,12 @@ def random_results(x, class_, size):
     return results
 
 
-def selection(arrays, entropy, k):
+def selection(arrays, entropy, k, expected_diff):
     weights = []
     for array in arrays:
         array_entropy = array_to_entropy(array)
         diff = abs(array_entropy - entropy)
-        if diff <= 0.01:
+        if diff <= expected_diff:
             return [array]
         weights.append(1 - diff / entropy)
     result = random.choices(
@@ -82,14 +82,14 @@ def mutate(children, classes):
     return mutated_children
 
 
-def choose_bests(best_cases, parent_idx, children: list, entropy):
+def choose_bests(best_cases, parent_idx, children: list, entropy, expected_diff):
     parents = get_parents(best_cases, parent_idx)
     current_cases = children.copy()
     current_cases.extend(parents)
     cases_entropy = []
     for array in current_cases:
         diff = abs(array_to_entropy(array) - entropy)
-        if diff <= 0.01:
+        if diff <= expected_diff:
             return [array]
         cases_entropy.append(diff)
     best_arrays = []

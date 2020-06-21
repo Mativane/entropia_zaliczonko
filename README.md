@@ -1,4 +1,8 @@
 # Generator obrazu o zadanej entropii
+<!-- badges: start -->
+[![Lifecycle:
+archived](https://img.shields.io/badge/lifecycle-archived-red.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
 
 Projekt zaliczeniowy na zajęcia z Algorytmów Heurystycznych. 
 Algorytm, wyposażony w GUI, wykorzystuje algorytm ewolucyjny aby obliczyć wartości spełniające wymóg zadanej entropii a następnie wynik przedstawia w postaci obrazka.
